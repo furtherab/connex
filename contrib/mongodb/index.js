@@ -122,7 +122,14 @@ MongoDB.prototype.watch = function() {
     self.reconnect();
   };
 
+  this._eventHandlers.error = function(err) {
+    throw err;
+  };
+
   handle.once('close', this._eventHandlers.close);
+
+  this.db.on('error', this._eventHandlers.error);
+  this.server.on('error', this._eventHandlers.error);
 
 };
 
@@ -133,6 +140,12 @@ MongoDB.prototype.unwatch = function() {
   if(this._eventHandlers.close) {
     handle.removeListener('close', this._eventHandlers.close);
     delete this._eventHandlers.close;
+  }
+
+  if(this._eventHandlers.error) {
+    this.db.removeListener('error', this._eventHandlers.error);
+    this.server.removeListener('error', this._eventHandlers.error);
+    delete this._eventHandlers.error;
   }
 
 };

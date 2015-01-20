@@ -133,7 +133,12 @@ RabbitMQ.prototype.watch = function() {
     self.reconnect();
   };
 
+  this._eventHandlers.error = function(err) {
+    throw err;
+  };
+
   handle.once('close', this._eventHandlers.close);
+  handle.on('error', this._eventHandlers.error);
 
 };
 
@@ -144,6 +149,11 @@ RabbitMQ.prototype.unwatch = function() {
   if(this._eventHandlers.close) {
     handle.removeListener('close', this._eventHandlers.close);
     delete this._eventHandlers.close;
+  }
+
+  if(this._eventHandlers.error) {
+    handle.removeListener('error', this._eventHandlers.error);
+    delete this._eventHandlers.error;
   }
 
 };
