@@ -1,0 +1,8 @@
+{
+  "name": "connex-rabbitmq",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "amqp": "1.2.x"
+  }
+}

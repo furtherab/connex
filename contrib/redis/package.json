@@ -1,0 +1,8 @@
+{
+  "name": "connex-redis",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "redis": "0.12.x"
+  }
+}
