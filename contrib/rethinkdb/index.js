@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var connex = require(__dirname + '/../../');
+var connex = require(__dirname + '/../../lib');
 var Connection = connex.Connection;
 
 var RethinkDB = module.exports = function(options) {
@@ -28,7 +28,7 @@ var RethinkDB = module.exports = function(options) {
   });
 
 };
-connex.utils.inherits(RethinkDB, Connection);
+require('util').inherits(RethinkDB, Connection);
 
 RethinkDB.prototype.connect = function() {
 

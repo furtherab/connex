@@ -1,7 +1,6 @@
 var _ = require('lodash');
-var EventEmitter = require('events').EventEmitter;
-var connex = require(__dirname + '/../../');
-var domain = require('domain');
+var connex = require(__dirname + '/../../lib');
+var Connection = connex.Connection;
 
 var MongoDB = module.exports = function(options) {
 
@@ -9,7 +8,7 @@ var MongoDB = module.exports = function(options) {
     return new MongoDB(options);
   }
 
-  Base.call(this);
+  Connection.call(this);
 
   var self = this;
 
@@ -30,7 +29,7 @@ var MongoDB = module.exports = function(options) {
   });
 
 };
-connex.utils.inherits(MongoDB, connex.Connection);
+require('util').inherits(MongoDB, Connection);
 
 MongoDB.prototype.connect = function() {
 
@@ -63,7 +62,7 @@ MongoDB.prototype.connect = function() {
 MongoDB.prototype.disconnect = function() {
 
   var self = this;
-  var handle = this.getHandle();
+  var handle = this.db;
 
   handle.once('close', function() {
     self.emit('disconnect');
@@ -78,7 +77,7 @@ MongoDB.prototype.disconnect = function() {
 MongoDB.prototype.cleanup = function() {
 
   var self = this;
-  var handle = this.getHandle();
+  var handle = this.db;
 
   _.each(this._eventHandlers, function(handler, eventName) {
     handle.removeListener(eventName, handler);
@@ -99,7 +98,7 @@ MongoDB.prototype.cleanup = function() {
 MongoDB.prototype.reconnect = function() {
 
   var self = this;
-  var handle = this.getHandle();
+  var handle = this.db;
 
   this.cleanup();
 
@@ -116,7 +115,7 @@ MongoDB.prototype.reconnect = function() {
 MongoDB.prototype.watch = function() {
 
   var self = this;
-  var handle = this.getHandle();
+  var handle = this.db;
 
   this._eventHandlers.close = function() {
     self.unwatch();
@@ -129,7 +128,7 @@ MongoDB.prototype.watch = function() {
 
 MongoDB.prototype.unwatch = function() {
 
-  var handle = this.getHandle();
+  var handle = this.db;
 
   if(this._eventHandlers.close) {
     handle.removeListener('close', this._eventHandlers.close);

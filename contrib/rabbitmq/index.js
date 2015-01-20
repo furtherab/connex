@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var connex = require(__dirname + '/../../');
+var connex = require(__dirname + '/../../lib');
 var Connection = connex.Connection;
 
 var RabbitMQ = module.exports = function(options) {
@@ -30,7 +30,7 @@ var RabbitMQ = module.exports = function(options) {
   });
 
 };
-connex.utils.inherits(RabbitMQ, Connection);
+require('util').inherits(RabbitMQ, Connection);
 
 RabbitMQ.prototype.connect = function() {
 

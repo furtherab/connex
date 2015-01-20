@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var connex = require(__dirname + '/../../');
+var connex = require(__dirname + '/../../lib');
 var Connection = connex.Connection;
 
 var Redis = module.exports = function(options) {
@@ -28,7 +28,7 @@ var Redis = module.exports = function(options) {
   });
 
 };
-connex.utils.inherits(Redis, Connection);
+require('util').inherits(Redis, Connection);
 
 Redis.prototype.connect = function() {
 
