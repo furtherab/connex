@@ -34,31 +34,32 @@ Redis.prototype.connect = function() {
 
   var self = this;
 
-  this.client = this.Redis.createClient(this.options.port, this.options.host, {
+  var client = this.Redis.createClient(this.options.port, this.options.host, {
     enable_offline_queue: false,
     max_attempts: 1
   });
 
-  this.domain.add(this.client);
+  this.domain.add(client);
 
   var onceError = function(err) {
-    self.client.removeListener('ready', onceReady);
+    client.removeListener('ready', onceReady);
     self.reconnect();
     self.emit('error:connect', err);
     self.emit('error', err);
   };
 
   var onceReady = function() {
-    self.client.removeListener('error', onceError);
+    self.client = client;
+    client.removeListener('error', onceError);
     self.watch();
     self.emit('connect');
     self.setState('connected');
   };
 
-  this._patchStreamListeners();
+  this._patchStreamListeners(client);
 
-  this.client.once('ready', onceReady);
-  this.client.once('error', onceError);
+  client.once('ready', onceReady);
+  client.once('error', onceError);
 
 };
 
@@ -119,7 +120,7 @@ Redis.prototype.watch = function() {
   var self = this;
   var handle = this.client;
 
-  this._patchStreamListeners();
+  this._patchStreamListeners(handle);
 
   function onceClose() {
     self.unwatch();
@@ -134,10 +135,10 @@ Redis.prototype.watch = function() {
 
 };
 
-Redis.prototype._patchStreamListeners = function() {
+Redis.prototype._patchStreamListeners = function(client) {
 
-  this.client.stream.removeAllListeners('close');
-  this.client.stream.removeAllListeners('end');
+  client.stream.removeAllListeners('close');
+  client.stream.removeAllListeners('end');
 
 };
 
