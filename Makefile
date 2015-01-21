@@ -1,5 +1,6 @@
 install:
 	cd contrib/rethinkdb; npm install
+	cd contrib/rethinkdb-co; npm install
 	cd contrib/redis; npm install
 	cd contrib/redis-co; npm install
 	cd contrib/mongodb; npm install

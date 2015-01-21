@@ -123,28 +123,5 @@ RethinkDB.prototype.unwatch = function() {
 };
 
 RethinkDB.prototype.getHandle = function() {
-  var handle = this.handle;
-
-  return {
-
-    r: this.RethinkDB,
-
-    conn: handle,
-
-    run: function(query) {
-      var conn = handle;
-      return function(done) { return query.run(conn, done); };
-    },
-
-    toArray: function(query) {
-      var conn = handle;
-      return function(done) {
-        return query.run(conn, function(err, cursor) {
-          if(err) return done(err);
-          return cursor.toArray(done);
-        });
-      };
-    }
-
-  };
+  return this.handle;
 };
