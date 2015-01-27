@@ -5,5 +5,12 @@
   "main": "index",
   "dependencies": {
     "lodash": "2.4.1"
+  },
+  "optionalDependencies": {
+    "mongodb": "1.4.x",
+    "amqp": "0.2.x",
+    "redis": "0.12.x",
+    "co-redis": "1.1.x",
+    "rethinkdb": "1.15.x"
   }
 }

@@ -1,8 +1,5 @@
 {
   "name": "connex-rethinkdb",
   "private": true,
-  "version": "0.0.1",
-  "dependencies": {
-    "rethinkdb": "1.15.x"
-  }
+  "version": "0.0.1"
 }
