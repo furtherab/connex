@@ -34,19 +34,19 @@ RethinkDB.prototype.connect = function() {
 
   var self = this;
 
-  this.handle = this.RethinkDB.connect(this.options, function(err, handle) {
+  this.RethinkDB.connect(this.options, function(err, handle) {
     if(err) {
       self.reconnect();
       self.emit('error', err);
       self.emit('error:connect', err);
     } else {
+      self.handle = handle;
+      self.domain.add(self.handle);
       self.watch();
       self.emit('connect');
       self.setState('connected');
     }
   });
-
-  this.domain.add(this.handle);
 
 };
 

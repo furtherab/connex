@@ -11,6 +11,6 @@
     "amqp": "0.2.x",
     "redis": "0.12.x",
     "co-redis": "1.1.x",
-    "rethinkdb": "1.15.x"
+    "rethinkdb": "1.16.x"
   }
 }
