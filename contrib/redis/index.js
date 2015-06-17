@@ -49,21 +49,25 @@ Redis.prototype.connect = function() {
   };
 
   var onceReady = function() {
-    if(_.isNumber(self.options.db)) {
-      client.select(self.options.db);
-    }
-
-    self.client = client;
-    client.removeListener('error', onceError);
-    self.watch();
-    self.emit('connect');
-    self.setState('connected');
+    maybeSelect(client, function(err) {
+      if(err) return client.emit('error', err);
+      self.client = client;
+      client.removeListener('error', onceError);
+      self.watch();
+      self.emit('connect');
+      self.setState('connected');
+    });
   };
 
   this._patchStreamListeners(client);
 
   client.once('ready', onceReady);
   client.once('error', onceError);
+
+  function maybeSelect(client, callback) {
+    if(!_.isNumber(self.options.db)) return callback();
+    client.select(self.options.db, callback);
+  }
 
 };
 
