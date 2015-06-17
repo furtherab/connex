@@ -49,6 +49,10 @@ Redis.prototype.connect = function() {
   };
 
   var onceReady = function() {
+    if(_.isNumber(self.options.db)) {
+      client.select(self.options.db);
+    }
+
     self.client = client;
     client.removeListener('error', onceError);
     self.watch();
