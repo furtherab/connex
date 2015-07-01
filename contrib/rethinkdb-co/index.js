@@ -21,9 +21,10 @@ RethinkDBCo.prototype.getHandle = function() {
 
     conn: handle,
 
-    run: function(query) {
+    run: function(query, options) {
       var conn = handle;
-      return function(done) { return query.run(conn, done); };
+      options = options || {};
+      return function(done) { return query.run(conn, options, done); };
     },
 
     toArray: function(query) {
