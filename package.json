@@ -6,12 +6,12 @@
   "dependencies": {
     "lodash": "2.4.1"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "mongodb": "1.4.x",
     "amqp": "0.2.x",
     "redis": "0.12.x",
     "co-redis": "1.1.x",
-    "rethinkdb": "1.16.x",
+    "rethinkdb": "*",
     "node-statsd": "0.1.x"
   }
 }
